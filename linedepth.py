@@ -12,9 +12,9 @@ Calculate the line depth of an absorption or emission line for a given spectrum 
 
 Args:
 ----------
-xmin,xmax - the specified interval of the spectrum to plot 
-excludemin, excludemax - the specified interval (in wavelength space) of the absorption feature 
-n - the number of Monte Carlo iterations 
+xmin,xmax - the specified interval of the spectrum to plot
+excludemin, excludemax - the specified interval (in wavelength space) of the absorption feature
+n - the number of Monte Carlo iterations
 
 Returns:
 -------
@@ -25,7 +25,7 @@ Returns:
 
 def measure_line_depth(filename,xmin,xmax,exclude_min,exclude_max,n):
     sp = p.Spectrum(filename)
-    sp.xarr.units = 'micron'
+    sp.xarr.unit = 'micron'
     sp.xarr.xtype = 'wavelength'
     sp.plotter(xmin=xmin, xmax=xmax, ymin=0, errstyle='bars',color='grey')
     sp.baseline(xmin=xmin, xmax=xmax,exclude=[exclude_min, exclude_max],subtract=False,
@@ -35,9 +35,9 @@ def measure_line_depth(filename,xmin,xmax,exclude_min,exclude_max,n):
     F_lambda = F.min()
     F_zero = sp.baseline.baselinepars
     line_depth = 1 - F_lambda/F_zero
-    line_depth = np.float(line_depth) 
-    print line_depth   
-        
+    line_depth = np.float(line_depth)
+    print line_depth
+
     sp2 = sp.copy()
     depth = []
 
@@ -66,6 +66,6 @@ def measure_line_depth(filename,xmin,xmax,exclude_min,exclude_max,n):
     plt.ylabel('Probability')
     plt.xlabel('Line Depth')
     plt.show()
-    
+
 if __name__=="__main__":
     xmin,xmax,exclude_min,exclude_max,n
