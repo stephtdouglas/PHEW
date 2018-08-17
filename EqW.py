@@ -25,7 +25,8 @@ Returns:
 """
 
 def measure_equivalent_width(filename,xmin,xmax,exclude_min,exclude_max,n,
-                             xunit='micron',xtype='wavelength',to_plot=True):
+                             xunit='micron',xtype='wavelength',to_plot=True,
+                             filebase="EQW.png"):
     sp = p.Spectrum(filename)
     sp.xarr.units = xunit
     sp.xarr.xtype = xtype
@@ -50,6 +51,7 @@ def measure_equivalent_width(filename,xmin,xmax,exclude_min,exclude_max,n,
                guesses='moments', vheight=True)
     sp.specfit.EQW(plot=True, plotcolor='g', fitted=True, components=False,
                    annotate=True, loc='lower left', xmin=None, xmax=None)
+    plt.savefig(filebase.replace(".","_initialfit."),bbox_inches="tight")
 
     sp2 = sp.copy()
     EQWs = np.zeros(n)
@@ -77,6 +79,7 @@ def measure_equivalent_width(filename,xmin,xmax,exclude_min,exclude_max,n,
         # print("fit")
         # print(dist)
         EQWs[w] = dist
+    plt.savefig(filebase.replace(".","_mc."),bbox_inches="tight")
 
     mu,sigma = norm.fit(EQWs)
     print( mu, sigma)
@@ -108,6 +111,7 @@ def measure_equivalent_width(filename,xmin,xmax,exclude_min,exclude_max,n,
         plt.ylabel('Probability')
         plt.xlabel('EQW')
         # plt.show()
+    plt.savefig(filebase.replace(".","_eqwhist."),bbox_inches="tight")
 
     plt.close("all")
 
